@@ -131,22 +131,22 @@ text_message += (
 
 print(text_message)
 # ---------- Telegram Send ----------
-# BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-# # CHAT_ID = 7614505023
-# CHAT_ID = -1003949713233
-#
-# url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-#
-# payload = {
-#     "chat_id": CHAT_ID,
-#     "text": text_message,
-#     "parse_mode": "Markdown",
-# }
-#
-# telegram_response = requests.post(url, data=payload)
-#
-# if telegram_response.status_code == 200:
-#     print("✅ Message sent successfully!")
-# else:
-#     print("❌ Failed to send message.")
-#     print(telegram_response.text)
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+# CHAT_ID = 7614505023
+CHAT_ID = -1003949713233
+
+url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+
+payload = {
+    "chat_id": CHAT_ID,
+    "text": text_message,
+    "parse_mode": "Markdown",
+}
+
+telegram_response = requests.post(url, data=payload)
+
+if telegram_response.status_code == 200:
+    print("✅ Message sent successfully!")
+else:
+    print("❌ Failed to send message.")
+    print(telegram_response.text)
