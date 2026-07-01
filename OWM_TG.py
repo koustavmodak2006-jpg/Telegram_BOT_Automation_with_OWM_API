@@ -3,6 +3,9 @@ import os
 from datetime import datetime
 from urllib.parse import unquote
 from google import genai
+from dotenv import load_dotenv
+
+load_dotenv()
 
 parameters = {
     "lat": 24.618538,
@@ -19,11 +22,11 @@ response = requests.get(
 response.raise_for_status()
 data = response.json()
 
-zenquote = requests.get("https://zenquotes.io/api/today")
+zenquote = requests.get(os.getenv("ZENQUOTE_API"))
 zenquote.raise_for_status()
 quote = zenquote.json()
 
-trivia = requests.get("https://opentdb.com/api.php?amount=10&category=22&difficulty=medium&type=multiple&encode=url3986")
+trivia = requests.get(os.getenv("OPENTRIVIA_API"))
 trivia.raise_for_status()
 quiz = trivia.json()
 answers = ""
@@ -128,22 +131,22 @@ text_message += (
 
 print(text_message)
 # ---------- Telegram Send ----------
-BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-# CHAT_ID = 7614505023
-CHAT_ID = -1003949713233
-
-url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-
-payload = {
-    "chat_id": CHAT_ID,
-    "text": text_message,
-    "parse_mode": "Markdown",
-}
-
-telegram_response = requests.post(url, data=payload)
-
-if telegram_response.status_code == 200:
-    print("✅ Message sent successfully!")
-else:
-    print("❌ Failed to send message.")
-    print(telegram_response.text)
+# BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+# # CHAT_ID = 7614505023
+# CHAT_ID = -1003949713233
+#
+# url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+#
+# payload = {
+#     "chat_id": CHAT_ID,
+#     "text": text_message,
+#     "parse_mode": "Markdown",
+# }
+#
+# telegram_response = requests.post(url, data=payload)
+#
+# if telegram_response.status_code == 200:
+#     print("✅ Message sent successfully!")
+# else:
+#     print("❌ Failed to send message.")
+#     print(telegram_response.text)
