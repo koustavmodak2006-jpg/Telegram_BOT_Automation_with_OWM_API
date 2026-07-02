@@ -4,6 +4,7 @@ from datetime import datetime
 from urllib.parse import unquote
 from google import genai
 from dotenv import load_dotenv
+from zoneinfo import ZoneInfo
 
 load_dotenv()
 
@@ -40,9 +41,8 @@ client = genai.Client(api_key=api_key)
 city = data.get("city", {}).get("name", "Your Location")
 today = datetime.now().strftime("%A, %d %b %Y")
 
-sunrise = datetime.fromtimestamp(data['city']['sunrise']).strftime("%I:%M %p")
-sunset = datetime.fromtimestamp(data['city']['sunset']).strftime("%I:%M %p")
-
+sunrise = datetime.fromtimestamp(data['city']['sunrise'],ZoneInfo("Asia/Kolkata")).strftime("%I:%M %p")
+sunset = datetime.fromtimestamp(data['city']['sunset'],ZoneInfo("Asia/Kolkata")).strftime("%I:%M %p")
 # ---------- Header ----------
 text_message = (
     f"🌤 *WEATHER FORECAST*\n"
@@ -95,7 +95,7 @@ for forecast in data["list"]:
 
 gemini_response = client.models.generate_content(
     model="gemini-2.5-flash",
-    contents=f"It's my weather details of Mount Abu for 12 hours, i wnat you to generate summary on the basis of it in only 50 words:-{details_gemini}",
+    contents=f"It's the weather details of Mount Abu for 12 hours, I want you to generate summary on the basis of it in only 50 words:-{details_gemini}",
 )
 text_message += (
     "\n*SUMMARY of Weather ..!*"
@@ -132,8 +132,8 @@ text_message += (
 print(text_message)
 # ---------- Telegram Send ----------
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-# CHAT_ID = 7614505023
-CHAT_ID = -1003949713233
+CHAT_ID = 7614505023
+# CHAT_ID = -1003949713233
 
 url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
