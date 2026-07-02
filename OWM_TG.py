@@ -132,8 +132,7 @@ text_message += (
 print(text_message)
 # ---------- Telegram Send ----------
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-CHAT_ID = 7614505023
-# CHAT_ID = -1003949713233
+CHAT_ID = YOUR_CHAT_ID
 
 url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
